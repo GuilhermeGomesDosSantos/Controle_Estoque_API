@@ -70,4 +70,14 @@ public class Product {
     public LocalDate getLast_Update() {
         return last_Update;
     }
+
+    public void atualizaProduto(UpdateProductDTO data){
+        if(data.name() != null) this.name = data.name();
+        if(data.amount() != null) this.amount = data.amount();
+        if(data.price()  != null) this.price = data.price();
+        if(data.category() != null) this.category = data.category();
+        if(data.brand() != null) this.brand = data.brand();
+        if(data.weight() != null) this.weight.atualizaWeight(data.weight());
+        this.last_Update = LocalDate.now();
+    }
 }

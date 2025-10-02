@@ -1,5 +1,6 @@
 package controleEstoqueAPI.Controle.Estoque.domain.Weight;
 
+import controleEstoqueAPI.Controle.Estoque.domain.Product.Product;
 import jakarta.persistence.Embeddable;
 
 import java.math.BigDecimal;
@@ -22,5 +23,10 @@ public class Weight {
 
     public String getUnit() {
         return unit;
+    }
+
+    public void atualizaWeight(ProductDetailsWeight data){
+        if(data.value_() != null) this.value_ = data.value_();
+        if (data.unit() != null) this.unit = data.unit();
     }
 }

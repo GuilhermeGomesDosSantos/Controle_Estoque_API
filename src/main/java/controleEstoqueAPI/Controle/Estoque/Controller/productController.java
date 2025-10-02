@@ -1,17 +1,11 @@
 package controleEstoqueAPI.Controle.Estoque.Controller;
 
-import controleEstoqueAPI.Controle.Estoque.domain.Product.Product;
-import controleEstoqueAPI.Controle.Estoque.domain.Product.ProductDetailsDTO;
-import controleEstoqueAPI.Controle.Estoque.domain.Product.ProductRepository;
-import controleEstoqueAPI.Controle.Estoque.domain.Product.registerProductDTO;
+import controleEstoqueAPI.Controle.Estoque.domain.Product.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -29,5 +23,15 @@ public class productController {
         var uri = uriComponentsBuilder.path("/product/{id}").buildAndExpand(product.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new ProductDetailsDTO(product));
+    }
+
+    @PutMapping("/update")
+    @Transactional
+    public ResponseEntity updateProduct(@RequestBody @Valid UpdateProductDTO data){
+        var product = repository.getReferenceById(data.id());
+
+        product.atualizaProduto(data);
+
+        return ResponseEntity.ok(new ProductDetailsDTO(product));
     }
 }
