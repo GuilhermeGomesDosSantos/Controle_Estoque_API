@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/registerProduct")
+@RequestMapping("/product")
 public class productController {
     @Autowired
     private ProductRepository repository;
 
-    @PostMapping("/product")
+    @PostMapping("/createProduct")
     @Transactional
     public ResponseEntity registerProduct(@RequestBody @Valid registerProductDTO data, UriComponentsBuilder uriComponentsBuilder){
         var product = new Product(data);
@@ -25,7 +25,7 @@ public class productController {
         return ResponseEntity.created(uri).body(new ProductDetailsDTO(product));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/updateProduct")
     @Transactional
     public ResponseEntity updateProduct(@RequestBody @Valid UpdateProductDTO data){
         var product = repository.getReferenceById(data.id());
@@ -33,5 +33,13 @@ public class productController {
         product.atualizaProduto(data);
 
         return ResponseEntity.ok(new ProductDetailsDTO(product));
+    }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    @Transactional
+    public ResponseEntity deleteProduct(@PathVariable Long id){
+        repository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
